@@ -1,24 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
-import './App.css';
+import ProductGrid from './products/ProductGrid';
 
 function App() {
+
+  const initialProductState = []
+
+  const [ products, setProducts ] = useState(initialProductState);
+  const [ search, setSearch ] = useState("")
+
+  useEffect( () => {
+
+    console.log(search)
+    async function fetchData(){
+    const response = await fetch(`https://api.mercadolibre.com/sites/MCO/search?q=${search}`, {mode: "cors"})
+    const prod = await response.json()
+
+    setProducts(prod.results)
+  }
+
+  fetchData()
+
+}, [search]);
+
+const handleChange = (event) => {
+  setSearch(event.target.value);
+}
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <input placeholder="Buscar" onChange={handleChange} />  
+      <ProductGrid products={products} />
     </div>
   );
 }
