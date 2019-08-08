@@ -26,9 +26,9 @@ html {
   color: white;
 }
 
-.price {
+.text {
   text-align: center;
-  padding: 1.5rem 2.5rem;
+  padding: 0.5rem;
   color: #666;
 }
 
@@ -83,7 +83,7 @@ input {
     text-align: center;
     font-size: 50px;
     border: 2px solid #3743fa;
-    width: fill;
+    width: stretch;
     outline: none;
     color: white;
     border-radius: 24px;
@@ -93,8 +93,4 @@ input {
 input::placeholder {
   color: #3743fa;
   font-weight: bold;
-}
-
-marquee {
-  font-size: 2rem;
 }

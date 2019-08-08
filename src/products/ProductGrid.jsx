@@ -7,11 +7,12 @@ const ProductGrid = props => (
                 <div className="card" key={product.id}>
                     <div className="title">{product.title}</div>
                     <img src={product.thumbnail} alt=""/>
-                    <div className="price">Precio: {product.price}</div>
+                    <div className="text">Precio: ${product.price}</div>
+                    <div className="text">Seller: {product.seller} </div>
                 </div>
             ))
         ) : (
-            <marquee>Ingrese una busqueda</marquee>
+            <div></div>
         )}
     </div>
 )
