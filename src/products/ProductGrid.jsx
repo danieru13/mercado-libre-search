@@ -1,4 +1,5 @@
 import React from 'react';
+import Seller from '../sellers/Seller';
 
 const ProductGrid = props => (
     <div className="container">
@@ -8,7 +9,7 @@ const ProductGrid = props => (
                     <div className="title">{product.title}</div>
                     <img src={product.thumbnail} alt=""/>
                     <div className="text">Precio: ${product.price}</div>
-                    <div className="text">Seller: {product.seller} </div>
+                    <Seller id={product.seller}/>
                 </div>
             ))
         ) : (

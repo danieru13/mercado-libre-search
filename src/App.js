@@ -1,48 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ProductGrid from './products/ProductGrid';
 
-function App() {
+function App() {  
 
-  const initialProductState = []
+  const initialProductState = [];
 
   const [ products, setProducts ] = useState(initialProductState);
-  const [ search, setSearch ] = useState("")
+  const [ search, setSearch ] = useState("");
+
+  const textInput = useRef(null);
 
   useEffect(() => {
-    modifyData();
-}, [search]);
 
-const fetchProducts  = async () => {
-  const response = await fetch(`https://api.mercadolibre.com/sites/MCO/search?q=${search}`, {mode: "cors"});
-  const res = await response.json();
+    fetch(`https://api.mercadolibre.com/sites/MCO/search?q=${search}`, { mode: "cors" })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (myJson) {
+        const data = myJson.results.map((obj) => {
+          let new_obj = { id: obj.id, title: obj.title, thumbnail: obj.thumbnail, price: obj.price, seller: obj.seller.id };
+          return new_obj;
+        });
+        setProducts(data);
+      });
 
-  return res.results;
-}
+  }, [search]);
 
-/*const fetchUserName = async (id) => {
-  const response = await fetch(`https://api.mercadolibre.com/users/${id}`, {mode: "cors"});
-  const res = await response.json()
-  return res.nickname;
-}*/
-
-const modifyData = () => {
-  fetchProducts().then(data => {
-    data = data.map((obj) => {
-      let new_obj = { id: obj.id, title: obj.title, thumbnail: obj.thumbnail, price: obj.price, seller: obj.seller.id};
-      return  new_obj;
-    });
-    setProducts(data);
-  });
-}
-
-const handleChange = (event) => {
-  setSearch(event.target.value);
+const handleSubmit = e => {        
+  if(e){ 
+    e.preventDefault();
+    const input = textInput.current.value;
+    setSearch(input);
+  }
 }
 
   return (
     <div>
-      <h1>Daniel Vanegas - Mercado Libre</h1>
-      <input placeholder="Buscar" onChange={handleChange} />  
+      <h1>Daniel Vanegas - MercadoLibre</h1>
+      <form onSubmit={handleSubmit}>
+        <input placeholder="Buscar" ref={textInput} />  
+      </form>
       <ProductGrid products={products} />
     </div>
   );
